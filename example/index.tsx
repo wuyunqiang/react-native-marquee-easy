@@ -1,9 +1,43 @@
-# react-native-marquee-easy
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Carousel } from '../src/index';
 
-react native marquee component to easy use
+const styles = StyleSheet.create({
+    cStyle: {
+        backgroundColor: 'red',
+        height: 20,
+        marginBottom: 30,
+        width: 200,
+    },
+    item: {
+        backgroundColor: 'blue',
+        height: 20,
+    },
+    page: {
+        alignItems: 'center',
+        backgroundColor: 'white',
+        flex: 1,
+        justifyContent: 'center',
+    },
+    text: {
+        color: 'white',
+        fontSize: 18,
+        height: 20,
+        marginHorizontal: 20,
+        padding: 0,
+    },
+});
 
-```
-<Carousel
+const App = () => {
+    const [count, changeCount] = useState(0);
+
+    setTimeout(() => {
+        changeCount(3);
+    }, 3000);
+
+    return (
+        <View style={styles.page}>
+            <Carousel
                 itemDurations={2000}
                 containerStyle={styles.cStyle}
                 iterations={count}
@@ -48,4 +82,8 @@ react native marquee component to easy use
                     <Text style={styles.text}>cccccccccc</Text>
                 </View>
             </Carousel>
-```
+        </View>
+    );
+};
+
+export default App;

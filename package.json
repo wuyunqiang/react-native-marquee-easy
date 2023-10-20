@@ -1,0 +1,29 @@
+{
+  "name": "react-native-marquee-easy",
+  "version": "1.0.0",
+  "main": "src/index.tsx",
+  "repository": "git@github.com:wuyunqiang/react-native-marquee-easy.git",
+  "author": "wuyunqiang",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.30",
+    "@types/react-native": "^0.72.5"
+  },
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/wuyunqiang/react-native-marquee-easy",
+  "keywords": [
+    "react-native",
+    "marquee",
+    "carousel",
+    "slider",
+    "horizontal-scrolling-carousels",
+    "ios",
+    "android"
+  ]
+}
