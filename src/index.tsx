@@ -25,7 +25,7 @@ export type IProps = {
     onFinished?: () => void;
     children: any;
 };
-export const Carousel: FC<IProps> = props => {
+export const Marquee: FC<IProps> = props => {
     const {
         children,
         delay,
@@ -141,4 +141,4 @@ export const Carousel: FC<IProps> = props => {
     );
 };
 
-export default Carousel;
+export default Marquee;
