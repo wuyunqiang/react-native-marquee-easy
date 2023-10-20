@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Carousel } from '../src/index';
+import { Marquee } from '../src/index';
 
 const styles = StyleSheet.create({
     cStyle: {
@@ -37,7 +37,7 @@ const App = () => {
 
     return (
         <View style={styles.page}>
-            <Carousel
+            <Marquee
                 itemDurations={2000}
                 containerStyle={styles.cStyle}
                 iterations={count}
@@ -55,9 +55,9 @@ const App = () => {
                 <View style={{ backgroundColor: 'pink' }}>
                     <Text style={styles.text}>cccccccccc</Text>
                 </View>
-            </Carousel>
+            </Marquee>
 
-            <Carousel itemDurations={4000} containerStyle={styles.cStyle}>
+            <Marquee itemDurations={4000} containerStyle={styles.cStyle}>
                 <View style={{ backgroundColor: 'green' }}>
                     <Text style={styles.text}>aaaaa</Text>
                 </View>
@@ -68,9 +68,9 @@ const App = () => {
                 <View style={{ backgroundColor: 'pink' }}>
                     <Text style={styles.text}>cccccccccc</Text>
                 </View>
-            </Carousel>
+            </Marquee>
 
-            <Carousel itemDurations={2000} containerStyle={styles.cStyle} direction={'vertical'}>
+            <Marquee itemDurations={2000} containerStyle={styles.cStyle} direction={'vertical'}>
                 <View style={{ backgroundColor: 'green' }}>
                     <Text style={styles.text}>aaaaa</Text>
                 </View>
@@ -81,7 +81,7 @@ const App = () => {
                 <View style={{ backgroundColor: 'pink' }}>
                     <Text style={styles.text}>cccccccccc</Text>
                 </View>
-            </Carousel>
+            </Marquee>
         </View>
     );
 };
