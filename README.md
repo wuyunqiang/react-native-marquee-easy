@@ -10,7 +10,9 @@ npm install react-native-marquee-easy
 ```
 
 ```Javascript
-<Carousel
+import { Marquee } from 'react-native-marquee-easy';
+
+<Marquee
                 itemDurations={2000}
                 containerStyle={styles.cStyle}
                 iterations={count}
@@ -28,7 +30,7 @@ npm install react-native-marquee-easy
                 <View style={{ backgroundColor: 'pink' }}>
                     <Text style={styles.text}>cccccccccc</Text>
                 </View>
-            </Carousel>
+            </Marquee>
 ```
 
 ```Javascript
