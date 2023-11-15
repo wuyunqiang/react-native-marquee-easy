@@ -24,6 +24,8 @@ export type IProps = {
     containerStyle?: ViewStyle;
     onFinished?: () => void;
     children: any;
+    type?: 'swipe' | 'normal';
+    swiperItemDurations?: number;
 };
 export const Marquee: FC<IProps> = props => {
     const {
@@ -31,16 +33,24 @@ export const Marquee: FC<IProps> = props => {
         delay,
         iterations = -1,
         itemDurations = 2000,
+        swiperItemDurations = 500,
         containerStyle,
         direction = 'horizontal',
         onFinished,
+        type = 'normal'
     } = props;
     const list = Array.isArray(children) ? children : [children];
     const [contentLayout, setContentLayout] = useState({ width: 0, height: 0 });
     const [containerLayout, setContainerW] = useState({ width: 0, height: 0 });
     const offsetAni = useRef(new Animated.Value(0)).current;
     const aniRef = useRef<any>();
+    const timerRef = useRef<any>();
     const action = (offset: number) => {
+        if(type === 'swipe'){
+            swiper(offset);
+            return;
+        }
+
         const duration = list.length * itemDurations;
         if (aniRef.current) {
             aniRef.current.stop();
@@ -69,7 +79,40 @@ export const Marquee: FC<IProps> = props => {
         });
     };
 
+
+    const swiper = (offset: number) =>{
+        let init = true;
+        const offsetItem = offset / list.length
+        let count = 0;
+        const exe = (distance) =>{
+            timerRef.current && clearTimeout(timerRef.current)
+            timerRef.current = setTimeout(()=>{
+                init = false;
+                count++;
+                Animated.timing(offsetAni, {
+                    toValue: -distance,
+                    duration: swiperItemDurations,
+                    useNativeDriver: true,
+                    easing: Easing.linear,
+                }).start(()=>{
+                    /**滚动到结尾后恢复到第一个*/
+                    if(count % list.length === 0){
+                        count = 0;
+                        offsetAni.setValue(0);
+                        exe(offsetItem);
+                        return;
+                    }
+                    exe(distance + offsetItem);
+                })
+            }, init ? 0 : itemDurations)
+        }
+        exe(offsetItem)
+    }
+
     useEffect(() => {
+        if(list.length <=1){
+            return;
+        }
         if (direction === 'horizontal') {
             if (
                 contentLayout.width &&
@@ -103,7 +146,8 @@ export const Marquee: FC<IProps> = props => {
         <View
             style={[styles.container, containerStyle]}
             onLayout={event => {
-                setContainerW(event?.nativeEvent?.layout || {});
+                const layout = event?.nativeEvent?.layout || {}
+                setContainerW(layout as any);
             }}
         >
             <Animated.View
@@ -121,19 +165,15 @@ export const Marquee: FC<IProps> = props => {
                 <View
                     style={[styles.item, direction === 'horizontal' && styles.horizontal]}
                     onLayout={event => {
-                        setContentLayout(event?.nativeEvent?.layout || {});
+                        const layout = event?.nativeEvent?.layout || {}
+                        setContentLayout(layout as any);
                     }}
                 >
-                    {children}
+                    {list}
                 </View>
                 {showLast ? (
-                    <View
-                        style={[styles.item, direction === 'horizontal' && styles.horizontal]}
-                        onLayout={event => {
-                            setContentLayout(event?.nativeEvent?.layout || {});
-                        }}
-                    >
-                        {children}
+                    <View style={[styles.item, direction === 'horizontal' && styles.horizontal]}>
+                        {list.slice(0,1)}
                     </View>
                 ) : null}
             </Animated.View>
