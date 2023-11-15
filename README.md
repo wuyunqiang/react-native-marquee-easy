@@ -43,61 +43,72 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
-    const [count, changeCount] = useState(0);
+  const [count, changeCount] = useState(0);
 
-    setTimeout(() => {
-        changeCount(3);
-    }, 3000);
+  setTimeout(() => {
+    changeCount(3);
+  }, 3000);
 
-    return (
-        <View style={styles.page}>
-            <Marquee
-                itemDurations={2000}
-                containerStyle={styles.cStyle}
-                iterations={count}
-                onFinished={() => {
-                    console.log('test finished ani');
-                }}
-            >
-                <View style={{ backgroundColor: 'green' }}>
-                    <Text style={styles.text}>aaaaa</Text>
-                </View>
-
-                <View style={styles.item}>
-                    <Text style={styles.text}>bbbbbbb</Text>
-                </View>
-                <View style={{ backgroundColor: 'pink' }}>
-                    <Text style={styles.text}>cccccccccc</Text>
-                </View>
-            </Marquee>
-
-            <Marquee itemDurations={4000} containerStyle={styles.cStyle}>
-                <View style={{ backgroundColor: 'green' }}>
-                    <Text style={styles.text}>aaaaa</Text>
-                </View>
-
-                <View style={styles.item}>
-                    <Text style={styles.text}>bbbbbbb</Text>
-                </View>
-                <View style={{ backgroundColor: 'pink' }}>
-                    <Text style={styles.text}>cccccccccc</Text>
-                </View>
-            </Marquee>
-
-            <Marquee itemDurations={2000} containerStyle={styles.cStyle} direction={'vertical'}>
-                <View style={{ backgroundColor: 'green' }}>
-                    <Text style={styles.text}>aaaaa</Text>
-                </View>
-
-                <View style={styles.item}>
-                    <Text style={styles.text}>bbbbbbb</Text>
-                </View>
-                <View style={{ backgroundColor: 'pink' }}>
-                    <Text style={styles.text}>cccccccccc</Text>
-                </View>
-            </Marquee>
+  return (
+    <View style={styles.page}>
+      <Marquee
+        itemDurations={2000}
+        containerStyle={styles.cStyle}
+        iterations={count}
+        onFinished={() => {
+          console.log("test finished ani");
+        }}
+      >
+        <View style={{ backgroundColor: "green" }}>
+          <Text style={styles.text}>aaaaa</Text>
         </View>
-    );
+
+        <View style={styles.item}>
+          <Text style={styles.text}>bbbbbbb</Text>
+        </View>
+        <View style={{ backgroundColor: "pink" }}>
+          <Text style={styles.text}>cccccccccc</Text>
+        </View>
+      </Marquee>
+
+      <Marquee
+        direction={"vertical"}
+        containerStyle={styles.cStyle}
+        itemDurations={2000}
+        delay={2000}
+        swiperItemDurations={500}
+        type={"swipe"}
+      >
+        <View style={{ backgroundColor: "green" }}>
+          <Text style={styles.text}>aaaaa</Text>
+        </View>
+
+        <View style={styles.item}>
+          <Text style={styles.text}>bbbbbbb</Text>
+        </View>
+        <View style={{ backgroundColor: "pink" }}>
+          <Text style={styles.text}>cccccccccc</Text>
+        </View>
+      </Marquee>
+
+      <Marquee
+        itemDurations={2000}
+        containerStyle={styles.cStyle}
+        direction={"vertical"}
+      >
+        <View style={{ backgroundColor: "green" }}>
+          <Text style={styles.text}>aaaaa</Text>
+        </View>
+
+        <View style={styles.item}>
+          <Text style={styles.text}>bbbbbbb</Text>
+        </View>
+        <View style={{ backgroundColor: "pink" }}>
+          <Text style={styles.text}>cccccccccc</Text>
+        </View>
+      </Marquee>
+    </View>
+  );
 };
 ```
 
@@ -110,6 +121,8 @@ export type IProps = {
     containerStyle?: ViewStyle;
     onFinished?: () => void;
     children: any;
+    type?: 'swipe' | 'normal';
+    swiperItemDurations?: number;
 };
 ```
 
