@@ -6,6 +6,20 @@ react native marquee component to easy use。<br>
 ### 效果如下：
 ![marquee](https://github.com/wuyunqiang/react-native-marquee-easy/assets/13480948/55ea8946-f295-4395-8e96-5a19ed10417a)
 
+### 组件配置
+```Javascript
+export type IProps = {
+    direction?: 'horizontal' | 'vertical'; // 动画执行方向
+    delay?: number; // 延迟执行动画
+    iterations?: number; // -1 for infinite 无限循环播放;
+    itemDurations?: number;  // 每一个item移动出视图需要的时间 总时间=itemDurations * children.length
+    containerStyle?: ViewStyle; // 跑马灯组件样式
+    onFinished?: () => void; // 动画执行完成的回调
+    children: any; // 必须
+};
+```
+
+### 使用示例：
 
 ```
 yarn install react-native-marquee-easy
