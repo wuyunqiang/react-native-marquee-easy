@@ -46,11 +46,6 @@ export const Marquee: FC<IProps> = props => {
     const aniRef = useRef<any>();
     const timerRef = useRef<any>();
     const action = (offset: number) => {
-        if(type === 'swipe'){
-            swiper(offset);
-            return;
-        }
-
         const duration = list.length * itemDurations;
         if (aniRef.current) {
             aniRef.current.stop();
@@ -79,64 +74,94 @@ export const Marquee: FC<IProps> = props => {
         });
     };
 
-
+    const offsetRef = useRef(0)
     const swiper = (offset: number) =>{
+        if(!offsetRef.current){
+            offsetRef.current = offset;
+        }
+        const offsetItem = offset;
         let init = true;
-        const offsetItem = offset / list.length
         let count = 0;
+        let loop = 0;
         const exe = (distance) =>{
             timerRef.current && clearTimeout(timerRef.current)
+            if(iterations > 0 && loop > iterations ){
+                return;
+            }
             timerRef.current = setTimeout(()=>{
-                init = false;
-                count++;
+                let duration = swiperItemDurations;
+                if(offsetRef.current !== offset){
+                    duration = 0;
+                }
                 Animated.timing(offsetAni, {
                     toValue: -distance,
-                    duration: swiperItemDurations,
+                    duration,
                     useNativeDriver: true,
                     easing: Easing.linear,
                 }).start(()=>{
-                    /**滚动到结尾后恢复到第一个*/
+                    offsetRef.current = offset;
+                    /**循环一轮到结尾后恢复到第一个*/
                     if(count % list.length === 0){
                         count = 0;
+                        loop = loop + 1;
                         offsetAni.setValue(0);
                         exe(offsetItem);
                         return;
                     }
                     exe(distance + offsetItem);
                 })
+                init = false;
+                count++;
             }, init ? 0 : itemDurations)
         }
         exe(offsetItem)
     }
 
     useEffect(() => {
-        if(list.length <=1){
+        if(list.length <=1 || direction !== 'horizontal'){
             return;
         }
-        if (direction === 'horizontal') {
-            if (
-                contentLayout.width &&
-                containerLayout.width &&
-                contentLayout.width > containerLayout.width &&
-                iterations !== 0
-            ) {
-                setTimeout(() => {
-                    action(contentLayout.width);
-                }, delay || 0);
+        if (
+            contentLayout.width &&
+            containerLayout.width &&
+            contentLayout.width > containerLayout.width &&
+            iterations !== 0
+        ) {
+            setTimeout(() => {
+                action(contentLayout.width);
+            }, delay || 0);
+        }
+    }, [contentLayout.width, containerLayout.width, iterations]);
+
+
+    useEffect(() => {
+        if(list.length <=1 || direction !== 'vertical'){
+            return;
+        }
+
+        if (
+            contentLayout.height &&
+            containerLayout.height &&
+            contentLayout.height > containerLayout.height &&
+            iterations !== 0
+        ) {
+            setTimeout(() => {
+                swiper(containerLayout.height);
+            }, delay || 0);
+        }
+    }, [contentLayout.height, containerLayout.height, iterations]);
+
+
+    useEffect(()=>{
+        return ()=>{
+            if (aniRef.current) {
+                aniRef.current.stop();
             }
-        } else {
-            if (
-                contentLayout.height &&
-                containerLayout.height &&
-                contentLayout.height > containerLayout.height &&
-                iterations !== 0
-            ) {
-                setTimeout(() => {
-                    action(contentLayout.height);
-                }, delay || 0);
+            if(timerRef.current){
+                clearTimeout(timerRef.current)
             }
         }
-    }, [contentLayout, containerLayout, iterations]);
+    },[])
 
     let showLast = contentLayout.width > containerLayout.width;
     if (direction === 'vertical') {
