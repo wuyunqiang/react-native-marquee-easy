@@ -1,6 +1,6 @@
 {
   "name": "react-native-marquee-easy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/index.tsx",
   "repository": "git@github.com:wuyunqiang/react-native-marquee-easy.git",
   "author": "wuyunqiang",
